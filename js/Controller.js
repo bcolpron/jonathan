@@ -3,8 +3,6 @@ function Controller(character, world, gamePad) {
     this.map = world.map;
     this.timer = setInterval($.proxy(this.update, this), 40);
     this.gamePad = gamePad;
-    this.hSpeed = 0;
-    this.vSpeed = 0;
     this.hLimit = 1000;
 };
 
@@ -13,41 +11,33 @@ var updateComponent = function(c, a, maxSpeed) {
     var capFn = Math.sign(a) == 1 ? Math.min : Math.max;
     c.speed = capFn(c.speed + a/25, maxSpeed);
     c.pos += c.speed / 25;
-    return c;
 }
 
 Controller.prototype.update = function() {
-
-    var p = this.character.getPosition();
+    var x = this.character.vector.x;
+    var y = this.character.vector.y;
     
-    c = {pos: p.x, speed: this.hSpeed};
-    if (this.gamePad.right()) c = updateComponent(c, 1500, 500);
-    else if (this.gamePad.left()) c = updateComponent(c, -1500, -500);
-    else if (this.hSpeed != 0)  c = updateComponent(c, -1500 * Math.sign(this.hSpeed), 0);
+    if (this.gamePad.right()) updateComponent(x, 1500, 500);
+    else if (this.gamePad.left()) updateComponent(x, -1500, -500);
+    else if (x.speed != 0) updateComponent(x, -1500 * Math.sign(x.speed), 0);
 
-    if (c.pos > this.hLimit) {
-        c.pos = this.hLimit;
-        c.speed = 0;
-    } else if (c.pos < 0) {
-        c.pos = 0;
-        c.speed = 0;
+    if (x.pos > this.hLimit) {
+        x.pos = this.hLimit;
+        x.speed = 0;
+    } else if (x.pos < 0) {
+        x.pos = 0;
+        x.speed = 0;
     }
     
-    p.x = c.pos;
-    this.hSpeed = c.speed;
-
-    if (this.gamePad.up() && this.vSpeed == 0) this.vSpeed = 750;
-    if (this.vSpeed != 0) {
-        c = {pos: p.y, speed: this.vSpeed};
-        c = updateComponent(c, -1500 * Math.sign(this.vSpeed), -750);
-        if (c.pos < 0) {
-            c.pos = 0;
-            c.speed = 0;
+    if (this.gamePad.up() && y.speed == 0) y.speed = 750;
+    if (y.speed != 0) {
+        updateComponent(y, -1500 * Math.sign(y.speed), -750);
+        if (y.pos < 0) {
+            y.pos = 0;
+            y.speed = 0;
         }
-        p.y = c.pos;
-        this.vSpeed = c.speed;
     }
     
-    this.character.setPosition(p);
+    this.character.update();
 }
 

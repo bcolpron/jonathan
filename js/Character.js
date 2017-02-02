@@ -5,6 +5,8 @@ function Character(x, y, class_) {
     this.setClass(class_);
     this.setPosition(x,y);
     this.setDirection(0);
+    
+    this.vector= {x: {pos: 0, speed: 0}, y: {pos: 0, speed: 0}};
 }
 
 Character.prototype.setClass = function(class_) {
@@ -46,6 +48,15 @@ Character.prototype.setPosition = function(x,y) {
         e.style.top = top;
     });
 
+};
+
+Character.prototype.update = function() {
+    var left = this.vector.x.pos;
+    var top = 318 - this.vector.y.pos;
+    this.sprites.each(function(i,e){
+        e.style.left = left;
+        e.style.top = top;
+    });
 };
 
 Character.prototype.setDirection = function(direction) {
