@@ -1,0 +1,7 @@
+cp $1.png $1-ani.png 
+cp $1.png $1-aniup.png 
+cp $1.png $1-up.png 
+cp $1.png $1-left.png 
+cp $1.png $1-anileft.png 
+convert $1.png -flop $1-right.png
+convert $1.png -flop $1-aniright.png

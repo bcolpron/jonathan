@@ -1,0 +1,55 @@
+<html>
+<head>
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>Jonathan Quest</title>
+    <script type="text/javascript" src="3rd/jquery-2.2.2.min.js"></script>
+    <script type="text/javascript" src="3rd/lodash-4.7.0.min.js"></script>
+    <script type="text/javascript" src="js/KeyboardController.js"></script>
+    <script type="text/javascript" src="js/Controller.js"></script>
+    <script type="text/javascript" src="js/Character.js"></script>
+    <script type="text/javascript" src="js/Bullet.js"></script>
+    <script type="text/javascript" src="js/CharacterPicker.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    
+<script type="text/javascript">
+
+worlds =
+{
+    world1:
+    {
+        name: "world1",
+        color: "lightskyblue",
+        map: [
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+        ]
+    },
+}
+
+
+$(function() {
+	window.game = {};
+    game.hero = new Character(0,0, "krabby");
+    game.keyboard = new KeyboardController();
+    game.controller = new Controller(game.hero, worlds.world1, game.keyboard);
+    game.picker = new CharacterPicker(game.controller);
+});
+
+</script>
+
+</head>
+
+<body>
+	<div class="main">
+        <div class="grass"></div>
+        <div class="land"></div>
+    </div>
+
+</body>
+
+</html>
