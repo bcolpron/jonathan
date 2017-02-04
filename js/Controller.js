@@ -58,12 +58,15 @@ Controller.prototype.update = function() {
         }
     }
 
-    if (this.gamePad.up() && y.speed == 0) y.speed = 1000;
+    var grounded = map[12 - Math.floor(y.pos / 50) + 1][Math.floor(x.pos / 25)] == 1 && y.speed == 0;
+    if (this.gamePad.up() && grounded) {
+        y.speed = 1000;
+    }
     updateComponent(y, -2500, -750);
-        
-        if (Math.sign(y.speed) == -1 && map[12 - Math.floor(y.pos / 50)][Math.floor(x.pos / 25)] == 1) {
+    if (Math.sign(y.speed) == -1 && map[12 - Math.floor(y.pos / 50)][Math.floor(x.pos / 25)] == 1) {
         y.pos = Math.floor(y.pos / 50 + 1) * 50;
         y.speed = 0;
+        grounded = true;
     }
 
     this.character.update();
