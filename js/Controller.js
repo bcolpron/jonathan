@@ -30,6 +30,21 @@ map = [
     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
 ];
 
+function downwardVerticalCollision(x,y) {
+    var logicalX = Math.floor(x.pos / 25);
+    var logicalX2 = Math.ceil(x.pos / 25);
+    var logicalY = 12 - Math.floor(y.pos / 50);
+    
+    if (map[logicalY][logicalX] == 1
+        || map[logicalY][logicalX2] == 1
+        || map[logicalY][logicalX2+1] == 1
+        || map[logicalY][logicalX2+2] == 1
+        || map[logicalY][logicalX2+3] == 1) {
+        return true;
+    }
+    return false;
+}
+
 Controller.prototype.update = function() {
     var character = this.character;
     var x = character.vector.x;
@@ -63,7 +78,7 @@ Controller.prototype.update = function() {
         y.speed = 1000;
     }
     updateComponent(y, -2500, -750);
-    if (Math.sign(y.speed) == -1 && map[12 - Math.floor(y.pos / 50)][Math.floor(x.pos / 25)] == 1) {
+    if (Math.sign(y.speed) == -1 && downwardVerticalCollision(x,y)) {
         y.pos = Math.floor(y.pos / 50 + 1) * 50;
         y.speed = 0;
         grounded = true;
