@@ -73,3 +73,12 @@ body {
     left: 0px;
 }
 
+.obstacle {
+    height: 50;
+    width: 200;
+    background-color: green;
+    position: absolute;
+    top: 350px;
+    left: 300px;
+}
+
