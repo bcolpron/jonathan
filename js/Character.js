@@ -47,7 +47,6 @@ Character.prototype.setPosition = function(x,y) {
         e.style.left = left;
         e.style.top = top;
     });
-
 };
 
 Character.prototype.update = function() {
@@ -91,16 +90,4 @@ Character.prototype.stopMoving = function() {
 Character.prototype.remove = function() {
     this.sprites.remove();
     this.sprites = null;
-}
-
-Character.prototype.hits = function(p) {
-    if (p.x >= this.position.x && p.x < this.position.x + 5
-        && p.y >= this.position.y && p.y < this.position.y + 4)
-    {
-        if (p.y == this.position.y && p.x < this.position.x + 2) {
-            return false
-        }
-        return true;
-    }
-    return false;
 }
