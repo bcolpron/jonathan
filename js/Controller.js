@@ -1,8 +1,9 @@
-function Controller(character, world, gamePad) {
+function Controller(character, world, gamePad, mousePad) {
     this.character = character;
     this.map = world.map;
     this.timer = setInterval($.proxy(this.update, this), 40);
     this.gamePad = gamePad;
+    this.mousePad = mousePad;
     this.hLimit = 1000;
     this.bullets = [];
 };
@@ -51,7 +52,7 @@ Controller.prototype.update = function() {
     var x = character.vector.x;
     var y = character.vector.y;
 
-    if (this.gamePad.fire()) {
+    if (this.mousePad.fire() || this.gamePad.fire()) {
         this.bullets.push(new Bullet(x.pos+100, y.pos - 35, 1000));
     }
 
