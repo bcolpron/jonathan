@@ -92,15 +92,16 @@ Controller.prototype.update = function() {
     }
 
     this.character.update();
-    _.each(this.bullets, $.proxy(function(b, i) {
-        updateComponent(b.vector.x, 0, 1000);
-        console.log(b.vector.x.pos);
-        if (b.vector.x.pos > 2000) {
-            b.remove();
+
+    var bullets = this.bullets.slice();
+    for (var i = this.bullets.length; i-- > 0; ) {
+        updateComponent(this.bullets[i].vector.x, 0, 1000);
+        if (this.bullets[i].vector.x.pos > 2000) {
+            this.bullets[i].remove();
             this.bullets.splice(i, 1);
         } else {
-            b.update();
+            this.bullets[i].update();
         }
-    },this));
+    };
 }
 

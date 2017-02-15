@@ -1,7 +1,8 @@
-function Character(x, y, class_) {
+function Character(x, y, class_, ext) {
     this.sprites = $('<div class="character"/>');
     $("body").append(this.sprites);
 
+    this.ext = ext || "png";
     this.setClass(class_);
     this.setPosition(x,y);
     this.setDirection(0);
@@ -11,14 +12,14 @@ function Character(x, y, class_) {
 
 Character.prototype.setClass = function(class_) {
     this.class_ = class_;
-    var html = '<img class="sprite" src="images/' + this.class_ + '.png" style="">\
-        <img class="sprite" src="images/' + this.class_ + '-up.png" style="display: none">\
-        <img class="sprite" src="images/' + this.class_ + '-left.png" style="display: none">\
-        <img class="sprite" src="images/' + this.class_ + '-right.png" style="display: none">\
-        <img class="sprite" src="images/' + this.class_ + '-ani.png" style="display: none">\
-        <img class="sprite" src="images/' + this.class_ + '-aniup.png" style="display: none">\
-        <img class="sprite" src="images/' + this.class_ + '-anileft.png" style="display: none">\
-        <img class="sprite" src="images/' + this.class_ + '-aniright.png" style="display: none">';
+    var html = '<img class="sprite" src="images/' + this.class_ + '.' + this.ext + '" style="">\
+        <img class="sprite" src="images/' + this.class_ + '-up.' + this.ext + '" style="display: none">\
+        <img class="sprite" src="images/' + this.class_ + '-left.' + this.ext + '" style="display: none">\
+        <img class="sprite" src="images/' + this.class_ + '-right.' + this.ext + '" style="display: none">\
+        <img class="sprite" src="images/' + this.class_ + '-ani.' + this.ext + '" style="display: none">\
+        <img class="sprite" src="images/' + this.class_ + '-aniup.' + this.ext + '" style="display: none">\
+        <img class="sprite" src="images/' + this.class_ + '-anileft.' + this.ext + '" style="display: none">\
+        <img class="sprite" src="images/' + this.class_ + '-aniright.' + this.ext + '" style="display: none">';
     this.sprites.html(html);
 }
 

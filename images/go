@@ -1,7 +1,7 @@
-cp $1.png $1-ani.png 
-cp $1.png $1-aniup.png 
-cp $1.png $1-up.png 
-cp $1.png $1-left.png 
-cp $1.png $1-anileft.png 
-convert $1.png -flop $1-right.png
-convert $1.png -flop $1-aniright.png
+cp $1.gif $1-ani.gif 
+cp $1.gif $1-aniup.gif 
+cp $1.gif $1-up.gif 
+cp $1.gif $1-left.gif 
+cp $1.gif $1-anileft.gif 
+convert $1.gif -flop $1-right.gif
+convert $1.gif -flop $1-aniright.gif

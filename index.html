@@ -36,6 +36,7 @@ worlds =
 $(function() {
 	window.game = {};
     game.hero = new Character(0,0, "krabby");
+    game.ennemy = new Character(500,-15, "evoli", "gif");
     game.keyboard = new KeyboardController();
     game.mouse = new MouseController($(".main"));
     game.controller = new Controller(game.hero, worlds.world1, game.keyboard, game.mouse);
