@@ -74,11 +74,40 @@ body {
 }
 
 .obstacle {
-    height: 50;
     width: 200;
+    height: 50;
     background-color: green;
     position: absolute;
-    top: 350px;
     left: 300px;
+    top: 350px;
+}
+.obstacle2 {
+    width: 75;
+    height: 150;
+    background-color: green;
+    position: absolute;
+    left: 750px;
+    top: 250px;
 }
 
+
+
+
+.lifeline  {
+    width: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+.lifeline .total {
+    width: 50px;
+    height: 5px;
+    display: table;
+    margin: 0 auto;
+    background-color: grey;
+}
+.lifeline  .total .remaining {
+    width: 33px;
+    height:5px;
+    background-color: red;
+}
