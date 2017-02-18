@@ -10,8 +10,9 @@ function Controller(character, world, gamePad, mousePad) {
 
 
 var updateComponent = function(c, a, maxSpeed) {
-    var capFn = Math.sign(a) == 1 ? Math.min : Math.max;
-    c.speed = capFn(c.speed + a/25, maxSpeed);
+    var direction = Math.sign(a);
+    var capFn = direction == 1 ? Math.min : Math.max;
+    c.speed = capFn(c.speed + a/25, maxSpeed*direction);
     c.pos += c.speed / 25;
 }
 
@@ -48,18 +49,21 @@ function downwardVerticalCollision(x,y) {
 }
 
 Controller.prototype.update = function() {
-    var character = this.character;
-    var x = character.vector.x;
-    var y = character.vector.y;
+    var object = this.character;
+    var x = object.vector.x;
+    var y = object.vector.y;
 
-    if (this.mousePad.fire() || this.gamePad.fire()) {
-        this.bullets.push(new Bullet(x.pos+100, y.pos - 35, 1000));
-    }
 
-    
-    if (this.gamePad.right()) updateComponent(x, 1500, 500);
-    else if (this.gamePad.left()) updateComponent(x, -1500, -500);
-    else if (x.speed != 0) updateComponent(x, -1500 * Math.sign(x.speed), 0);
+    var maxSpeed = object.maxSpeed;
+    if (this.gamePad.right()) x.acc = 1500;
+    else if (this.gamePad.left()) x.acc = -1500;
+    else if (x.speed != 0) { x.acc = -1500 * Math.sign(x.speed); maxSpeed = 0;}
+    else x.acc = 0;
+    if (this.gamePad.up() && object.grounded) y.speed = 1000;
+
+
+    updateComponent(x, x.acc, maxSpeed);
+    console.log(x.speed);
 
     if (x.pos > this.hLimit) {
         x.pos = this.hLimit;
@@ -80,18 +84,21 @@ Controller.prototype.update = function() {
         }
     }
 
-    var grounded = map[12 - Math.floor(y.pos / 50) + 1][Math.floor(x.pos / 25)] == 1 && y.speed == 0;
-    if (this.gamePad.up() && grounded) {
-        y.speed = 1000;
-    }
-    updateComponent(y, -2500, -750);
+    updateComponent(y, -2500, 750);
+    object.grounded = false;
     if (Math.sign(y.speed) == -1 && downwardVerticalCollision(x,y)) {
         y.pos = Math.floor(y.pos / 50 + 1) * 50;
         y.speed = 0;
-        grounded = true;
+        object.grounded = true;
     }
 
-    this.character.update();
+    object.update();
+
+
+
+    if (this.mousePad.fire() || this.gamePad.fire()) {
+        this.bullets.push(new Bullet(this.character.vector.x.pos+100, this.character.vector.y.pos - 35, 1000));
+    }
 
     for (var i = this.bullets.length; i-- > 0; ) {
         updateComponent(this.bullets[i].vector.x, 0, 1000);

@@ -7,7 +7,10 @@ function Character(x, y, class_, ext) {
     this.setPosition(x,y);
     this.setDirection(0);
     
-    this.vector= {x: {pos: 0, speed: 0}, y: {pos: 0, speed: 0}};
+    this.vector= {x: {pos: 0, speed: 0, acc: 0}, y: {pos: 0, speed: 0, acc: 0}};
+    this.grounded = false;
+    this.maxSpeed = 500;
+    this.jumpAcceleration = 1500;
 }
 
 Character.prototype.setClass = function(class_) {
