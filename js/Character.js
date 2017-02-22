@@ -1,6 +1,6 @@
 function Character(x, y, class_, ext) {
     this.sprites = $('<div class="character"/>');
-    $("body").append(this.sprites);
+    $(".main").append(this.sprites);
 
     this.ext = ext || "png";
     this.setClass(class_);

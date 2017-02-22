@@ -6,6 +6,16 @@ body {
     background-color: lightskyblue;
 	height: 100%;
 }
+.viewport {
+    position: absolute;
+    height: 100%;
+    width: 5750;
+    top: 0px;
+    left: 0px;
+}
+
+
+
 .character {
     position: absolute;
     overflow: hidden;

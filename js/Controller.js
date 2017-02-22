@@ -4,7 +4,6 @@ function Controller(character, world, gamePad, mousePad) {
     this.timer = setInterval($.proxy(this.update, this), 40);
     this.gamePad = gamePad;
     this.mousePad = mousePad;
-    this.hLimit = 1000;
     this.bullets = [];
 };
 
@@ -63,10 +62,9 @@ Controller.prototype.update = function() {
 
 
     updateComponent(x, x.acc, maxSpeed);
-    console.log(x.speed);
 
-    if (x.pos > this.hLimit) {
-        x.pos = this.hLimit;
+    if (x.pos >= map[0].length*25-100) {
+        x.pos = map[0].length*25-100;
         x.speed = 0;
     } else if (x.pos < 0) {
         x.pos = 0;
@@ -94,6 +92,8 @@ Controller.prototype.update = function() {
 
     object.update();
 
+    var scroll = Math.min(0, -object.vector.x.pos + $("body").width()/2);
+    $(".viewport").css({left: scroll});
 
 
     if (this.mousePad.fire() || this.gamePad.fire()) {
