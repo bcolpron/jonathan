@@ -10,7 +10,7 @@ function Bullet(x, y, hSpeed) {
 
 Bullet.prototype.update = function() {
     var left = this.vector.x.pos;
-    var top = 318 - this.vector.y.pos;
+    var top = 568 - this.vector.y.pos;
     this.sprites.each(function(i,e){
         e.style.left = left;
         e.style.top = top;

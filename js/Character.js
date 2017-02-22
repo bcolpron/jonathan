@@ -45,7 +45,7 @@ Character.prototype.setPosition = function(x,y) {
     this.position = {x:x, y:y};
     
     var left = this.position.x;
-    var top = 318 - this.position.y;
+    var top = 568 - this.position.y;
 
     this.sprites.each(function(i,e){
         e.style.left = left;
@@ -55,7 +55,7 @@ Character.prototype.setPosition = function(x,y) {
 
 Character.prototype.update = function() {
     var left = this.vector.x.pos;
-    var top = 318 - this.vector.y.pos;
+    var top = 568 - this.vector.y.pos;
     this.sprites.each(function(i,e){
         e.style.left = left;
         e.style.top = top;

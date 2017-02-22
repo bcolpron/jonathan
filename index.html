@@ -38,7 +38,7 @@ $(function() {
 	window.game = {};
     game.hero = new Character(0,0, "krabby");
 
-    game.ennemy = new Character(500,-15, "evoli", "gif");
+    game.ennemy = new Character(500, 0, "evoli", "gif");
     game.ennemy.lifeline = new LifeLine(game.ennemy);
 
     game.keyboard = new KeyboardController();
@@ -54,9 +54,6 @@ $(function() {
 <body>
     <div class="viewport">
         <div class="main">
-            <div class="land"></div>
-            <div class="obstacle"></div>
-            <div class="obstacle2"></div>
         </div>
     </div>
 

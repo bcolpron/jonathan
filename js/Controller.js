@@ -1,20 +1,3 @@
-function Controller(character, world, gamePad, mousePad) {
-    this.character = character;
-    this.map = world.map;
-    this.timer = setInterval($.proxy(this.update, this), 40);
-    this.gamePad = gamePad;
-    this.mousePad = mousePad;
-    this.bullets = [];
-};
-
-
-var updateComponent = function(c, a, maxSpeed) {
-    var direction = Math.sign(a);
-    var capFn = direction == 1 ? Math.min : Math.max;
-    c.speed = capFn(c.speed + a/25, maxSpeed*direction);
-    c.pos += c.speed / 25;
-}
-
 map = [
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
@@ -31,6 +14,32 @@ map = [
     [0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
 ];
+
+function Controller(character, world, gamePad, mousePad) {
+    this.character = character;
+    this.map = world.map;
+    this.timer = setInterval($.proxy(this.update, this), 40);
+    this.gamePad = gamePad;
+    this.mousePad = mousePad;
+    this.bullets = [];
+
+    var m = $(".main");
+    for (var y=0; y != map.length; ++y) {
+        for (var x=0; x != map[y].length; ++x) {
+            if (map[y][x] == 1) {
+                m.append($('<div class="tile" style="top: ' + y*50 + 'px; left: ' + x*25 + 'px"/>'));
+            }
+        }
+    }
+};
+
+
+var updateComponent = function(c, a, maxSpeed) {
+    var direction = Math.sign(a);
+    var capFn = direction == 1 ? Math.min : Math.max;
+    c.speed = capFn(c.speed + a/25, maxSpeed*direction);
+    c.pos += c.speed / 25;
+}
 
 function downwardVerticalCollision(x,y) {
     var logicalX = Math.floor(x.pos / 25);
@@ -93,11 +102,11 @@ Controller.prototype.update = function() {
     object.update();
 
     var scroll = Math.min(0, -object.vector.x.pos + $("body").width()/2);
-    $(".viewport").css({left: scroll});
+    $(".viewport").css({left: scroll, top: -300});
 
 
     if (this.mousePad.fire() || this.gamePad.fire()) {
-        this.bullets.push(new Bullet(this.character.vector.x.pos+100, this.character.vector.y.pos - 35, 1000));
+        this.bullets.push(new Bullet(this.character.vector.x.pos+50, this.character.vector.y.pos - 35, 1000));
     }
 
     for (var i = this.bullets.length; i-- > 0; ) {
