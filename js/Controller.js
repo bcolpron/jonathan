@@ -10,11 +10,13 @@ function Controller(character, world, gamePad, mousePad) {
     for (var y=0; y != this.map.length; ++y) {
         for (var x=0; x != this.map[y].length; ++x) {
             if (this.map[y][x] == 1) {
-                m.append($('<div class="tile" style="top: ' + y*50 + 'px; left: ' + x*25 + 'px"/>'));
+                m.append($('<div class="tile" style="top: ' + y*50 + 'px; left: ' + x*this.TILE_WIDTH + 'px"/>'));
             }
         }
     }
 };
+
+Controller.prototype.TILE_WIDTH = 50;
 
 
 var updateComponent = function(c, a, maxSpeed) {
@@ -25,15 +27,13 @@ var updateComponent = function(c, a, maxSpeed) {
 }
 
 Controller.prototype.downwardVerticalCollision = function(x,y) {
-    var logicalX = Math.floor(x.pos / 25);
-    var logicalX2 = Math.ceil(x.pos / 25);
+    var logicalX = Math.floor(x.pos / this.TILE_WIDTH);
+    var logicalX2 = Math.ceil(x.pos / this.TILE_WIDTH);
     var logicalY = 12 - Math.floor(y.pos / 50);
     
     if (this.map[logicalY][logicalX] == 1
         || this.map[logicalY][logicalX2] == 1
-        || this.map[logicalY][logicalX2+1] == 1
-        || this.map[logicalY][logicalX2+2] == 1
-        || this.map[logicalY][logicalX2+3] == 1) {
+        || this.map[logicalY][logicalX2+1] == 1) {
         return true;
     }
     return false;
@@ -55,8 +55,8 @@ Controller.prototype.update = function() {
 
     updateComponent(x, x.acc, maxSpeed);
 
-    if (x.pos >= this.map[0].length*25-100) {
-        x.pos = this.map[0].length*25-100;
+    if (x.pos >= this.map[0].length*this.TILE_WIDTH-100) {
+        x.pos = this.map[0].length*this.TILE_WIDTH-100;
         x.speed = 0;
     } else if (x.pos < 0) {
         x.pos = 0;
@@ -64,12 +64,12 @@ Controller.prototype.update = function() {
     } else {
         h = 12 - Math.floor(y.pos / 50);
 
-        if (Math.sign(x.speed) == 1 && this.map[h][Math.floor(x.pos / 25 + 4)] == 1) {
-            x.pos = Math.floor(x.pos / 25) * 25;
+        if (Math.sign(x.speed) == 1 && this.map[h][Math.floor(x.pos / this.TILE_WIDTH + 2)] == 1) {
+            x.pos = Math.floor(x.pos / this.TILE_WIDTH) * this.TILE_WIDTH;
             x.speed = 0;
         }
-        if (Math.sign(x.speed) == -1 && this.map[h][Math.floor(x.pos / 25)] == 1) {
-            x.pos = Math.floor(x.pos / 25 + 1) * 25;
+        if (Math.sign(x.speed) == -1 && this.map[h][Math.floor(x.pos / this.TILE_WIDTH)] == 1) {
+            x.pos = Math.floor(x.pos / this.TILE_WIDTH + 1) * this.TILE_WIDTH;
             x.speed = 0;
         }
     }
