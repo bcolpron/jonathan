@@ -85,12 +85,34 @@ Controller.prototype.update = function() {
         object.grounded = true;
     }
 
-    if (game.detector.collisions(object))
+    object.update();
+
+
+
+
+
+    var hit = game.detector.collisions(object);
+    if (hit)
     {
-        console.log("collision!");
+        clearInterval(this.timer);
+        object.swirl();
+
+        var i = 0;
+        var curtain = $(".curtain");
+        curtain.show();
+        var t = setInterval($.proxy(function() {
+            if (i++ >= 25) {
+                clearInterval(t);
+            }
+            curtain.css({opacity: i/25});
+        }, this), 40);
+
+        setTimeout($.proxy(function(){
+            this.close();
+
+        }, this), 1000);
     }
 
-    object.update();
 
 
 
@@ -115,3 +137,6 @@ Controller.prototype.update = function() {
     };
 }
 
+Controller.prototype.close = function() {
+    $(".main").empty();
+}

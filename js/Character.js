@@ -1,16 +1,7 @@
 var Character = inherit(Sprite, function(x, y, class_, ext) {
-    this.sprites = $('<div class="character"/>');
-    $(".main").append(this.sprites);
-
-    this.ext = ext || "png";
-    this.setClass(class_);
-    this.setDirection(0);
-    
-    this.vector= {x: {pos: x*Controller.prototype.TILE_WIDTH, speed: 0, acc: 0}, y: {pos: y*50, speed: 0, acc: 0}};
-    this.grounded = false;
+    this.base(x,y, "images/krabby.png");
     this.maxSpeed = 500;
     this.jumpAcceleration = 1500;
-
     this.update(x,y);
 });
 
