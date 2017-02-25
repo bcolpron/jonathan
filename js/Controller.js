@@ -61,6 +61,9 @@ Controller.prototype.update = function() {
     } else if (x.pos < 0) {
         x.pos = 0;
         x.speed = 0;
+    } else if (y.pos > 13*50) {
+        y.pos = 13*50;
+        y.speed = 0;
     } else {
         h = 12 - Math.floor(y.pos / 50);
 
@@ -84,8 +87,9 @@ Controller.prototype.update = function() {
 
     object.update();
 
-    var scroll = Math.min(0, -object.vector.x.pos + $("body").width()/2);
-    $(".main").css({left: scroll, top: -200});
+    var scrollX = Math.min(0, -object.vector.x.pos + $(".viewport").width()/2);
+    var scrollY = Math.max(-200, Math.min(0, object.vector.y.pos -200-250));
+    $(".main").css({left: scrollX, top: scrollY});
 
 
     if (this.gamePad.fire()) {
