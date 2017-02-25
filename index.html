@@ -51,7 +51,7 @@ $(function() {
     game.ennemy.lifeline = new LifeLine(game.ennemy);
 
     game.keyboard = new KeyboardController();
-    game.mouse = new MouseController($(".main"));
+    //game.mouse = new MouseController($(".main"));
     game.controller = new Controller(game.hero, worlds.world1, game.keyboard, game.mouse);
     game.picker = new CharacterPicker(game.controller);
 });

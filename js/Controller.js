@@ -85,10 +85,10 @@ Controller.prototype.update = function() {
     object.update();
 
     var scroll = Math.min(0, -object.vector.x.pos + $("body").width()/2);
-    $(".viewport").css({left: scroll, top: -300});
+    $(".main").css({left: scroll, top: -200});
 
 
-    if (this.mousePad.fire() || this.gamePad.fire()) {
+    if (this.gamePad.fire()) {
         this.bullets.push(new Bullet(this.character.vector.x.pos+50, this.character.vector.y.pos - 35, 1000));
     }
 

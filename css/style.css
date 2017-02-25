@@ -5,14 +5,18 @@ body {
 }
 .main {
     background-color: lightskyblue;
-	height: 100%;
-}
-.viewport {
-    position: absolute;
     height: 100%;
+    position: absolute;
+    height: 700;
     width: 5750;
     top: 0px;
     left: 0px;
+}
+.viewport {
+    position: relative;
+    height: 500;
+    width: 100%;
+    overflow: hidden;    
 }
 
 
