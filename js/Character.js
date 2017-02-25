@@ -1,5 +1,5 @@
 var Character = inherit(Sprite, function(x, y, class_, ext) {
-    this.base(x,y, "images/krabby.png");
+    this.base(x,y, "images/" + class_ + "." + (ext || "png"));
     this.maxSpeed = 500;
     this.jumpAcceleration = 1500;
     this.update(x,y);
