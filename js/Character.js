@@ -14,6 +14,8 @@ function Character(x, y, class_, ext) {
     this.update(x,y);
 }
 
+Character.prototype.extents = [[1,1], [1,1]]
+
 Character.prototype.setClass = function(class_) {
     this.class_ = class_;
     var html = '<img class="sprite" src="images/' + this.class_ + '.' + this.ext + '" style="">\

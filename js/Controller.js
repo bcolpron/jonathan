@@ -85,10 +85,15 @@ Controller.prototype.update = function() {
         object.grounded = true;
     }
 
+    if (game.detector.collisions(object))
+    {
+        console.log("collision!");
+    }
+
     object.update();
 
 
-    
+
 
     var scrollX = Math.min(0, -object.vector.x.pos + $(".viewport").width()/2);
     var scrollY = -200;//Math.max(-200, Math.min(0, object.vector.y.pos -200-250));

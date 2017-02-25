@@ -13,6 +13,7 @@
     <script type="text/javascript" src="js/LifeLine.js"></script>
     <script type="text/javascript" src="js/Sprite.js"></script>
     <script type="text/javascript" src="js/Portal.js"></script>
+    <script type="text/javascript" src="js/CollisionDetector.js"></script>
     <link rel="stylesheet" type="text/css" href="css/style.css">
     
 <script type="text/javascript">
@@ -47,7 +48,10 @@ worlds =
 
 $(function() {
 	window.game = {};
+    game.detector = new CollisionDetector();
+
     game.hero = new Character(0,0, "krabby");
+    game.detector.add(game.hero);
 
     game.ennemy = new Character(10, 0, "evoli", "gif");
     game.ennemy.lifeline = new LifeLine(game.ennemy);
@@ -58,6 +62,7 @@ $(function() {
     game.picker = new CharacterPicker(game.controller);
 
     game.portal = new Portal(130, 6);
+    game.detector.add(game.portal);
 });
 
 </script>
