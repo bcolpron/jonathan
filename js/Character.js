@@ -4,13 +4,14 @@ function Character(x, y, class_, ext) {
 
     this.ext = ext || "png";
     this.setClass(class_);
-    this.setPosition(x,y);
     this.setDirection(0);
     
-    this.vector= {x: {pos: 0, speed: 0, acc: 0}, y: {pos: 0, speed: 0, acc: 0}};
+    this.vector= {x: {pos: x*Controller.prototype.TILE_WIDTH, speed: 0, acc: 0}, y: {pos: y*50, speed: 0, acc: 0}};
     this.grounded = false;
     this.maxSpeed = 500;
     this.jumpAcceleration = 1500;
+
+    this.update(x,y);
 }
 
 Character.prototype.setClass = function(class_) {
@@ -31,27 +32,6 @@ Character.prototype.UP    = 1;
 Character.prototype.LEFT  = 2;
 Character.prototype.RIGHT = 3;
 Character.prototype.ANIM  = 4;
-
-Character.prototype.getPosition = function() {
-    return {x: this.position.x, y: this.position.y};
-}
-
-Character.prototype.setPosition = function(x,y) {
-    if  (typeof x === "object") {
-        y = x.y;
-        x = x.x;
-    }
-
-    this.position = {x:x, y:y};
-    
-    var left = this.position.x;
-    var top = 568 - this.position.y;
-
-    this.sprites.each(function(i,e){
-        e.style.left = left;
-        e.style.top = top;
-    });
-};
 
 Character.prototype.update = function() {
     var left = this.vector.x.pos;

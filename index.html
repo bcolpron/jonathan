@@ -11,6 +11,8 @@
     <script type="text/javascript" src="js/Bullet.js"></script>
     <script type="text/javascript" src="js/CharacterPicker.js"></script>
     <script type="text/javascript" src="js/LifeLine.js"></script>
+    <script type="text/javascript" src="js/Sprite.js"></script>
+    <script type="text/javascript" src="js/Portal.js"></script>
     <link rel="stylesheet" type="text/css" href="css/style.css">
     
 <script type="text/javascript">
@@ -47,13 +49,15 @@ $(function() {
 	window.game = {};
     game.hero = new Character(0,0, "krabby");
 
-    game.ennemy = new Character(500, 0, "evoli", "gif");
+    game.ennemy = new Character(10, 0, "evoli", "gif");
     game.ennemy.lifeline = new LifeLine(game.ennemy);
 
     game.keyboard = new KeyboardController();
     //game.mouse = new MouseController($(".main"));
     game.controller = new Controller(game.hero, worlds.world1, game.keyboard, game.mouse);
     game.picker = new CharacterPicker(game.controller);
+
+    game.portal = new Portal(100, 6);
 });
 
 </script>
