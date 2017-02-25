@@ -33,3 +33,15 @@ function inherit(base, ctor){
     return derived;
 }
 
+Sprite.prototype.swirl = function() {
+    var i = 0;
+    var timer = setInterval($.proxy(function() {
+        if (i++ < 25) {
+            var scale = 2-Math.pow(1-2*i/25,2);
+            this.sprites.css({transform: "rotate("+360*i/25+"deg) scale(" + scale + "," + scale + ")"});
+        } else {
+            this.sprites.css({transform: ""});
+            clearInterval(timer);
+        }
+    }, this), 40);
+}

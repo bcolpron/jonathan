@@ -1,4 +1,4 @@
-function Character(x, y, class_, ext) {
+var Character = inherit(Sprite, function(x, y, class_, ext) {
     this.sprites = $('<div class="character"/>');
     $(".main").append(this.sprites);
 
@@ -12,7 +12,7 @@ function Character(x, y, class_, ext) {
     this.jumpAcceleration = 1500;
 
     this.update(x,y);
-}
+});
 
 Character.prototype.extents = [[1,1], [1,1]]
 
@@ -34,15 +34,6 @@ Character.prototype.UP    = 1;
 Character.prototype.LEFT  = 2;
 Character.prototype.RIGHT = 3;
 Character.prototype.ANIM  = 4;
-
-Character.prototype.update = function() {
-    var left = this.vector.x.pos;
-    var top = 568 - this.vector.y.pos;
-    this.sprites.each(function(i,e){
-        e.style.left = left;
-        e.style.top = top;
-    });
-};
 
 Character.prototype.setDirection = function(direction) {
     this.direction = direction;
