@@ -3,7 +3,7 @@ function Sprite(x, y, imageUri) {
     var html = '<img class="sprite" src="' + imageUri + '" style="">';
     this.sprites.html(html);
     $(".main").append(this.sprites);
-    
+
     this.vector= {x: {pos: x*Controller.prototype.TILE_WIDTH, speed: 0, acc: 0}, y: {pos: y*50, speed: 0, acc: 0}};
     this.grounded = false;
 }
@@ -18,3 +18,18 @@ Sprite.prototype.update = function() {
         e.style.top = top;
     });
 };
+
+function inherit(base, ctor){
+    var derived = function() {
+        var that = this;
+        this.base = function() {
+            base.apply(that, arguments);
+        }
+        ctor.apply(this, arguments);
+    };
+    derived.prototype = _.create(base.prototype, {
+        'constructor': derived
+    })
+    return derived;
+}
+

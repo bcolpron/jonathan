@@ -87,8 +87,11 @@ Controller.prototype.update = function() {
 
     object.update();
 
+
+    
+
     var scrollX = Math.min(0, -object.vector.x.pos + $(".viewport").width()/2);
-    var scrollY = Math.max(-200, Math.min(0, object.vector.y.pos -200-250));
+    var scrollY = -200;//Math.max(-200, Math.min(0, object.vector.y.pos -200-250));
     $(".main").css({left: scrollX, top: scrollY});
 
 
@@ -98,7 +101,7 @@ Controller.prototype.update = function() {
 
     for (var i = this.bullets.length; i-- > 0; ) {
         updateComponent(this.bullets[i].vector.x, 0, 1000);
-        if (this.bullets[i].vector.x.pos > 2000) {
+        if (this.bullets[i].vector.x.pos > this.bullets[i].limit) {
             this.bullets[i].remove();
             this.bullets.splice(i, 1);
         } else {

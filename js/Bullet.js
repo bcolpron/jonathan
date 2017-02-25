@@ -2,9 +2,11 @@ function Bullet(x, y, hSpeed) {
     this.sprites = $('<div class="bullet"/>');
     var html = '<img class="sprite" src="images/bubble2.png" style="">';
     this.sprites.html(html);
-
     $(".main").append(this.sprites);
+
     this.vector= {x: {pos: x, speed: hSpeed}, y: {pos: y, speed: 0}};
+
+    this.limit = x + 2000;
     this.update();
 }
 
