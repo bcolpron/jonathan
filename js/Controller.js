@@ -1,10 +1,18 @@
-function Controller(character, world, gamePad, mousePad) {
-    this.character = character;
+function Controller(world, game) {
     this.map = world.map;
     this.timer = setInterval($.proxy(this.update, this), 40);
-    this.gamePad = gamePad;
-    this.mousePad = mousePad;
+    this.gamePad = game.gamePad;
     this.bullets = [];
+    this.detector = new CollisionDetector();
+
+    this.character = new Character(0,0, "krabby");
+    this.detector.add(this.character);
+
+    this.ennemy = new Character(10, 0, "evoli", "gif");
+    this.ennemy.lifeline = new LifeLine(this.ennemy);
+
+    this.portal = new Portal(130, 6, game);
+    this.detector.add(this.portal);
 
     var m = $(".main");
     for (var y=0; y != this.map.length; ++y) {
@@ -91,26 +99,13 @@ Controller.prototype.update = function() {
 
 
 
-    var hit = game.detector.collisions(object);
+    var hit = this.detector.collisions(object);
     if (hit)
     {
-        clearInterval(this.timer);
-        object.swirl();
+        hit.hit(object);
 
-        var i = 0;
-        var curtain = $(".curtain");
-        curtain.show();
-        var t = setInterval($.proxy(function() {
-            if (i++ >= 25) {
-                clearInterval(t);
-            }
-            curtain.css({opacity: i/25});
-        }, this), 40);
 
-        setTimeout($.proxy(function(){
-            this.close();
-
-        }, this), 1000);
+        
     }
 
 
@@ -135,6 +130,10 @@ Controller.prototype.update = function() {
             this.bullets[i].update();
         }
     };
+}
+
+Controller.prototype.pause = function() {
+    clearInterval(this.timer);
 }
 
 Controller.prototype.close = function() {
