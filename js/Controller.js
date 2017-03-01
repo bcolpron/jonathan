@@ -11,14 +11,15 @@ function Controller(world, game) {
     this.ennemy = new Character(10, 0, "evoli", "gif");
     this.ennemy.lifeline = new LifeLine(this.ennemy);
 
-    this.portal = new Portal(130, 6, game);
-    this.detector.add(this.portal);
-
     var m = $(".main");
     for (var y=0; y != this.map.length; ++y) {
         for (var x=0; x != this.map[y].length; ++x) {
             if (this.map[y][x] == 1) {
                 m.append($('<div class="tile" style="top: ' + y*50 + 'px; left: ' + x*this.TILE_WIDTH + 'px"/>'));
+            } else if (this.map[y][x] == P) {
+                console.log("portal " + (x*50) + "," + ((13-y)*50));
+                this.portal = new Portal(x, 13-y, game);
+                this.detector.add(this.portal);
             }
         }
     }
@@ -104,13 +105,7 @@ Controller.prototype.update = function() {
     {
         hit.hit(object);
 
-
-        
     }
-
-
-
-
 
     var scrollX = Math.min(0, -object.vector.x.pos + $(".viewport").width()/2);
     var scrollY = -200;//Math.max(-200, Math.min(0, object.vector.y.pos -200-250));

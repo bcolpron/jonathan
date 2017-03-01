@@ -12,7 +12,7 @@ Sprite.prototype.extents = [[1]];
 
 Sprite.prototype.update = function() {
     var left = this.vector.x.pos;
-    var top = 568 - this.vector.y.pos;
+    var top = 668 - this.vector.y.pos - this.extents.length*50;
     this.sprites.each(function(i,e){
         e.style.left = left;
         e.style.top = top;
