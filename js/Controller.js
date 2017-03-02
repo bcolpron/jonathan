@@ -14,6 +14,7 @@ function Controller(world, game) {
     this.portals = [];
 
     var m = $(".main");
+    m.css({'background-color': world.color});
     for (var y=0; y != this.map.length; ++y) {
         for (var x=0; x != this.map[y].length; ++x) {
             if (this.map[y][x] == 1) {
