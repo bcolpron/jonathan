@@ -19,12 +19,13 @@ function Controller(world, game) {
             if (this.map[y][x] == 1) {
                 m.append($('<div class="tile" style="top: ' + y*50 + 'px; left: ' + x*this.TILE_WIDTH + 'px"/>'));
             } else if (this.map[y][x] == P) {
-                var portal = new Portal(x, 13-y, game, "world1");
+                var portal = new Portal(x, 13-y, game);
                 this.detector.add(portal);
                 this.portals.push(portal);
             }
         }
     }
+    world.init(game);
 };
 
 Controller.prototype.TILE_WIDTH = 50;
@@ -138,5 +139,6 @@ Controller.prototype.close = function() {
     _.each(this.portals, function(portal) {
         portal.remove();
     });
-    this.portals = [];
+    this.character.remove();
+    this.ennemy.remove();
 }

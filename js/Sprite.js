@@ -6,7 +6,11 @@ function Sprite(x, y, imageUri) {
 
     this.vector= {x: {pos: x*Controller.prototype.TILE_WIDTH, speed: 0, acc: 0}, y: {pos: y*50, speed: 0, acc: 0}};
     this.grounded = false;
+
+    this.instances.push(this);
 }
+
+Sprite.prototype.instances = [];
 
 Sprite.prototype.extents = [[1]];
 
@@ -28,9 +32,18 @@ function inherit(base, ctor){
         ctor.apply(this, arguments);
     };
     derived.prototype = _.create(base.prototype, {
-        'constructor': derived
+        'constructor': derived,
+        'instances': []
     })
     return derived;
+}
+
+Sprite.prototype.remove = function() {
+    if (this.sprites) {
+        this.sprites.remove();
+        this.sprites = null;
+    }
+    this.instances.splice(_.findIndex(this.instances, _.identity(this)), 1);
 }
 
 Sprite.prototype.swirl = function() {

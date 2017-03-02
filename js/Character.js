@@ -54,8 +54,3 @@ Character.prototype.setMoving = function() {
 Character.prototype.stopMoving = function() {
     this.setDirection(this.direction & 0x3);
 };
-
-Character.prototype.remove = function() {
-    this.sprites.remove();
-    this.sprites = null;
-}

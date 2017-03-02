@@ -25,8 +25,6 @@ CollisionDetector.prototype.collisions = function(a) {
 
         if (aX2 >= bX1 && aX1 < bX2 && aY2 >= bY1 && aY1 < bY2)
         {
-            console.log("aX1=" + aX1 + ", " + "aX2=" + aX2 + ", " + "aY1=" + aY1 + ", " + "aY2=" + aY2 + "");
-            console.log("bX1=" + bX1 + ", " + "bX2=" + bX2 + ", " + "bY1=" + bY1 + ", " + "bY2=" + bY2 + "");
             return true;
         }
         return false;
