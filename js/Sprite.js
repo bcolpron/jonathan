@@ -5,7 +5,6 @@ function Sprite(x, y, imageUri) {
     $(".main").append(this.sprites);
 
     this.vector= {x: {pos: x*Controller.prototype.TILE_WIDTH, speed: 0, acc: 0}, y: {pos: y*50, speed: 0, acc: 0}};
-    this.grounded = false;
 
     this.instances.push(this);
 }

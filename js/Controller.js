@@ -3,7 +3,7 @@ function Controller(world, game) {
     this.timer = setInterval($.proxy(this.update, this), 40);
     this.gamePad = game.gamePad;
     this.bullets = [];
-    this.detector = new CollisionDetector();
+    this.detector = new CollisionDetector(this.map);
 
     this.character = new Character(0,0, "krabby");
     this.detector.add(this.character);
@@ -52,6 +52,19 @@ Controller.prototype.downwardVerticalCollision = function(x,y) {
     return false;
 }
 
+Controller.prototype.upwardVerticalCollision = function(x,y) {
+    var logicalX = Math.floor(x.pos / this.TILE_WIDTH);
+    var logicalX2 = Math.ceil(x.pos / this.TILE_WIDTH);
+    var logicalY = 12 - Math.ceil(y.pos / 50);
+    
+    if (this.map[logicalY][logicalX] == 1
+        || this.map[logicalY][logicalX2] == 1
+        || this.map[logicalY][logicalX2+1] == 1) {
+        return true;
+    }
+    return false;
+}
+
 Controller.prototype.update = function() {
     var object = this.character;
     var x = object.vector.x;
@@ -63,53 +76,33 @@ Controller.prototype.update = function() {
     else if (this.gamePad.left()) x.acc = -1500;
     else if (x.speed != 0) { x.acc = -1500 * Math.sign(x.speed); maxSpeed = 0;}
     else x.acc = 0;
-    if (this.gamePad.up() && object.grounded) y.speed = 1000;
+    if (this.gamePad.up() && this.detector.isGrounded(object)) y.speed = 1000;
 
 
     updateComponent(x, x.acc, maxSpeed);
 
-    if (x.pos >= this.map[0].length*this.TILE_WIDTH-100) {
-        x.pos = this.map[0].length*this.TILE_WIDTH-100;
-        x.speed = 0;
-    } else if (x.pos < 0) {
-        x.pos = 0;
-        x.speed = 0;
-    } else if (y.pos > 13*50) {
-        y.pos = 13*50;
-        y.speed = 0;
-    } else {
-        h = 12 - Math.floor(y.pos / 50);
+    this.detector.mapCollisions(object);
 
-        if (Math.sign(x.speed) == 1 && this.map[h][Math.floor(x.pos / this.TILE_WIDTH + 2)] == 1) {
-            x.pos = Math.floor(x.pos / this.TILE_WIDTH) * this.TILE_WIDTH;
-            x.speed = 0;
-        }
-        if (Math.sign(x.speed) == -1 && this.map[h][Math.floor(x.pos / this.TILE_WIDTH)] == 1) {
-            x.pos = Math.floor(x.pos / this.TILE_WIDTH + 1) * this.TILE_WIDTH;
-            x.speed = 0;
-        }
-    }
 
     updateComponent(y, -2500, 750);
-    object.grounded = false;
+
+
+    if (Math.sign(y.speed) == 1 && this.upwardVerticalCollision(x,y)) {
+        y.pos = Math.floor(y.pos / 50) * 50;
+        y.speed = 0;
+    }
     if (Math.sign(y.speed) == -1 && this.downwardVerticalCollision(x,y)) {
         y.pos = Math.floor(y.pos / 50 + 1) * 50;
         y.speed = 0;
-        object.grounded = true;
     }
 
     object.update();
 
 
 
+    this.detector.objectsCollisions(object);
 
 
-    var hit = this.detector.collisions(object);
-    if (hit)
-    {
-        hit.hit(object);
-
-    }
 
     var scrollX = Math.min(0, -object.vector.x.pos + $(".viewport").width()/2);
     var scrollY = -200;//Math.max(-200, Math.min(0, object.vector.y.pos -200-250));
