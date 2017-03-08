@@ -5,10 +5,10 @@ function Controller(world, game) {
     this.bullets = [];
     this.detector = new CollisionDetector(this.map);
 
-    this.character = new Character(0,0, "krabby");
+    this.character = new Character(0,1, "krabby");
     this.detector.add(this.character);
 
-    this.ennemy = new Character(10, 0, "evoli", "gif");
+    this.ennemy = new Character(10, 1, "evoli", "gif");
     this.ennemy.lifeline = new LifeLine(this.ennemy);
 
     this.portals = [];
@@ -31,38 +31,11 @@ function Controller(world, game) {
 
 Controller.prototype.TILE_WIDTH = 50;
 
-
 var updateComponent = function(c, a, maxSpeed) {
     var direction = Math.sign(a);
     var capFn = direction == 1 ? Math.min : Math.max;
     c.speed = capFn(c.speed + a/25, maxSpeed*direction);
     c.pos += c.speed / 25;
-}
-
-Controller.prototype.downwardVerticalCollision = function(x,y) {
-    var logicalX = Math.floor(x.pos / this.TILE_WIDTH);
-    var logicalX2 = Math.ceil(x.pos / this.TILE_WIDTH);
-    var logicalY = 12 - Math.floor(y.pos / 50);
-    
-    if (this.map[logicalY][logicalX] == 1
-        || this.map[logicalY][logicalX2] == 1
-        || this.map[logicalY][logicalX2+1] == 1) {
-        return true;
-    }
-    return false;
-}
-
-Controller.prototype.upwardVerticalCollision = function(x,y) {
-    var logicalX = Math.floor(x.pos / this.TILE_WIDTH);
-    var logicalX2 = Math.ceil(x.pos / this.TILE_WIDTH);
-    var logicalY = 12 - Math.ceil(y.pos / 50);
-    
-    if (this.map[logicalY][logicalX] == 1
-        || this.map[logicalY][logicalX2] == 1
-        || this.map[logicalY][logicalX2+1] == 1) {
-        return true;
-    }
-    return false;
 }
 
 Controller.prototype.update = function() {
@@ -80,29 +53,16 @@ Controller.prototype.update = function() {
 
 
     updateComponent(x, x.acc, maxSpeed);
-
-    this.detector.mapCollisions(object);
-
+    this.detector.mapHorizontalCollisions(object);
 
     updateComponent(y, -2500, 750);
+    this.detector.mapVerticalCollisions(object);
 
-
-    if (Math.sign(y.speed) == 1 && this.upwardVerticalCollision(x,y)) {
-        y.pos = Math.floor(y.pos / 50) * 50;
-        y.speed = 0;
-    }
-    if (Math.sign(y.speed) == -1 && this.downwardVerticalCollision(x,y)) {
-        y.pos = Math.floor(y.pos / 50 + 1) * 50;
-        y.speed = 0;
-    }
 
     object.update();
 
 
-
     this.detector.objectsCollisions(object);
-
-
 
     var scrollX = Math.min(0, -object.vector.x.pos + $(".viewport").width()/2);
     var scrollY = -200;//Math.max(-200, Math.min(0, object.vector.y.pos -200-250));
