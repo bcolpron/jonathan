@@ -90,7 +90,6 @@ CollisionDetector.prototype.mapHorizontalCollisions = function(object) {
 
     var x = object.vector.x;
     var y = object.vector.y;
-    var wall = dir.ahead(x.pos / this.TILE_WIDTH)+dir.extent(object);
     
     if (x.pos > this.map[0].length*this.TILE_WIDTH-100) {
         x.pos = this.map[0].length*this.TILE_WIDTH-100;
@@ -98,9 +97,12 @@ CollisionDetector.prototype.mapHorizontalCollisions = function(object) {
     } else if (x.pos < 0) {
         x.pos = 0;
         x.speed = 0;
-    } else if (this.hitsWall(object, wall)) {
-        x.pos = dir.behind(x.pos / this.TILE_WIDTH) * this.TILE_WIDTH;
-        x.speed = 0;
+    } else {
+        var wall = dir.ahead(x.pos / this.TILE_WIDTH)+dir.extent(object);
+        if (this.hitsWall(object, wall)) {
+            x.pos = dir.behind(x.pos / this.TILE_WIDTH) * this.TILE_WIDTH;
+            x.speed = 0;
+        }
     }
 }
 
@@ -120,16 +122,18 @@ CollisionDetector.prototype.mapVerticalCollisions = function(object) {
 
     var x = object.vector.x;
     var y = object.vector.y;
-    var floor = this.map.length - 1 - dir.ahead(y.pos / 50);
 
     if (y.pos > (this.map.length-1)*50) {
         y.pos = (this.map.length-1)*50;
         y.speed = 0;
     } else if (y.pos < 0) {
         // let it fall!
-    } else if (this.hitsFloor(object, floor)) {
-        y.pos = dir.behind(y.pos / 50) * 50;
-        y.speed = 0;
+    } else {
+        var floor = this.map.length - 1 - dir.ahead(y.pos / 50);
+        if (this.hitsFloor(object, floor)) {
+            y.pos = dir.behind(y.pos / 50) * 50;
+            y.speed = 0;
+        }
     }
 }
 
