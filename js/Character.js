@@ -3,9 +3,10 @@ var Character = inherit(Sprite, function(x, y, class_, ext) {
     this.maxSpeed = 500;
     this.jumpAcceleration = 1500;
     this.update(x,y);
+    this.offset.y = 32;
 });
 
-Character.prototype.extents = [[1,1], [1,1]]
+Character.prototype.extents = [[1,1]]
 
 Character.prototype.setClass = function(class_) {
     this.class_ = class_;

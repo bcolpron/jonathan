@@ -5,6 +5,7 @@ function Sprite(x, y, imageUri) {
     $(".main").append(this.sprites);
 
     this.vector= {x: {pos: x*Controller.prototype.TILE_WIDTH, speed: 0, acc: 0}, y: {pos: y*50, speed: 0, acc: 0}};
+    this.offset = {x: 0, y: 0};
 
     this.instances.push(this);
 }
@@ -15,7 +16,7 @@ Sprite.prototype.extents = [[1]];
 
 Sprite.prototype.update = function() {
     var left = this.vector.x.pos;
-    var top = 718 - this.vector.y.pos - this.extents.length*50;
+    var top = 700 - this.vector.y.pos - this.extents.length*50 - this.offset.y;
     this.sprites.each(function(i,e){
         e.style.left = left;
         e.style.top = top;
