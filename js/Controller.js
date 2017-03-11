@@ -8,9 +8,6 @@ function Controller(world, game) {
     this.character = new Character(0,1, "krabby");
     this.detector.add(this.character);
 
-    this.ennemy = new Character(10, 1, "evoli", "gif");
-    this.ennemy.lifeline = new LifeLine(this.ennemy);
-
     this.portals = [];
 
     var m = $(".main");
@@ -19,10 +16,13 @@ function Controller(world, game) {
         for (var x=0; x != this.map[y].length; ++x) {
             if (this.map[y][x] == 1) {
                 m.append($('<div class="tile" style="top: ' + y*50 + 'px; left: ' + x*this.TILE_WIDTH + 'px"/>'));
-            } else if (this.map[y][x] == P) {
+            } else if (this.map[y][x] == Portal) {
                 var portal = new Portal(x, 13-y, game);
                 this.detector.add(portal);
                 this.portals.push(portal);
+            } else if (this.map[y][x] == Evoli) {
+                var portal = new Evoli(x, 13-y);
+                this.detector.add(portal);
             }
         }
     }

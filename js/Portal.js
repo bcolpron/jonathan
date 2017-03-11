@@ -20,5 +20,3 @@ Portal.prototype.extents = [[1,1,1,1,1,1,1,1],
                             [1,1,1,1,1,1,1,1],
                             [1,1,1,1,1,1,1,1]];
 
-// convenience alias for map design
-var P = Portal;
