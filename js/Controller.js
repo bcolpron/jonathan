@@ -21,8 +21,8 @@ function Controller(world, game) {
                 this.detector.add(portal);
                 this.portals.push(portal);
             } else if (this.map[y][x] == Evoli) {
-                var portal = new Evoli(x, 13-y);
-                this.detector.add(portal);
+                var ennemy = new Evoli(x, 13-y);
+                this.detector.add(ennemy);
             }
         }
     }
@@ -65,7 +65,7 @@ Controller.prototype.update = function() {
     this.detector.objectsCollisions(object);
 
     var scrollX = Math.min(0, -object.vector.x.pos + $(".viewport").width()/2);
-    var scrollY = -200;//Math.max(-200, Math.min(0, object.vector.y.pos -200-250));
+    var scrollY = Math.max(-200, Math.min(0, object.vector.y.pos -200-250));
     $(".main").css({left: scrollX, top: scrollY});
 
 
@@ -94,5 +94,4 @@ Controller.prototype.close = function() {
         portal.remove();
     });
     this.character.remove();
-    this.ennemy.remove();
 }
