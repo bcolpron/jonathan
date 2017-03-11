@@ -48,6 +48,9 @@ CollisionDetector.prototype.isGrounded = function(object) {
 
 CollisionDetector.prototype.TILE_WIDTH = 50;
 
+CollisionDetector.prototype.hitsWall = function(object, wall) {
+}
+
 CollisionDetector.prototype.mapHorizontalCollisions = function(object) {
     var dir = this.getHorizontalDirection(object);
     if (!dir) return;
@@ -99,25 +102,29 @@ CollisionDetector.prototype.getVerticalDirection = function(object) {
     }
 }
 
+CollisionDetector.prototype.hitsFloor = function(object, floor) {
+    var range = {begin: Math.floor(object.vector.x.pos / this.TILE_WIDTH),
+                 end:   Math.ceil(object.vector.x.pos / this.TILE_WIDTH) + object.extents[0].length};
+    for(var i=range.begin; i != range.end; ++i) {
+        if (this.map[floor][i] == 1) return true;
+    }
+    return false;
+}
+
 CollisionDetector.prototype.mapVerticalCollisions = function(object) {
     var dir = this.getVerticalDirection(object);
     if (!dir) return;
 
     var x = object.vector.x;
     var y = object.vector.y;
-
-    var logicalX = Math.floor(x.pos / this.TILE_WIDTH);
-    var logicalX2 = Math.ceil(x.pos / this.TILE_WIDTH);
-    var logicalY = this.map.length - 1 - dir.ahead(y.pos / 50);
+    var floor = this.map.length - 1 - dir.ahead(y.pos / 50);
 
     if (y.pos > (this.map.length-1)*50) {
         y.pos = (this.map.length-1)*50;
         y.speed = 0;
     } else if (y.pos < 0) {
         // let it fall!
-    } else if (this.map[logicalY][logicalX] == 1
-        || this.map[logicalY][logicalX2] == 1
-        || this.map[logicalY][logicalX2+1] == 1) {
+    } else if (this.hitsFloor(object, floor)) {
         y.pos = dir.behind(y.pos / 50) * 50;
         y.speed = 0;
     }
