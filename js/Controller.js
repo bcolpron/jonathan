@@ -70,7 +70,7 @@ Controller.prototype.update = function() {
 
 
     if (this.gamePad.fire()) {
-        this.bullets.push(new Bullet(this.character.vector.x.pos+50, this.character.vector.y.pos - 35, 1000));
+        this.bullets.push(new Bullet(this.character.vector.x.pos+50, this.character.vector.y.pos, 1000));
     }
 
     for (var i = this.bullets.length; i-- > 0; ) {

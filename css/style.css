@@ -44,14 +44,6 @@ body {
     overflow: hidden;
     z-index: 10;
 }
-.bullet {
-    position: absolute;
-    overflow: hidden;
-}
-.arbre {
-    position: absolute;
-    z-index: 10;
-}
 .portal {
     position: absolute;
     z-index: 0;
