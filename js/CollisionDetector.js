@@ -47,38 +47,11 @@ CollisionDetector.prototype.isGrounded = function(object) {
 }
 
 CollisionDetector.prototype.TILE_WIDTH = 50;
-
-CollisionDetector.prototype.hitsWall = function(object, wall) {
-}
-
-CollisionDetector.prototype.mapHorizontalCollisions = function(object) {
-    var dir = this.getHorizontalDirection(object);
-    if (!dir) return;
-
-    var x = object.vector.x;
-    var y = object.vector.y;
-    var logicalY = this.map.length - 1 - Math.floor(y.pos / 50);
-    
-    if (x.pos > this.map[0].length*this.TILE_WIDTH-100) {
-        x.pos = this.map[0].length*this.TILE_WIDTH-100;
-        x.speed = 0;
-    } else if (x.pos < 0) {
-        x.pos = 0;
-        x.speed = 0;
-    } else if (this.map[logicalY][dir.ahead(x.pos / this.TILE_WIDTH)+dir.extent(object)] == 1) {
-        x.pos = dir.behind(x.pos / this.TILE_WIDTH) * this.TILE_WIDTH;
-        x.speed = 0;
-    }
-}
-
-
-
 CollisionDetector.prototype.UP    = {ahead: Math.ceil,  behind: Math.floor, extent: function(object){return object.extents.length-1;} };
 CollisionDetector.prototype.DOWN  = {ahead: Math.floor, behind: Math.ceil, extent: function(object){return 0;} };
 CollisionDetector.prototype.LEFT  = {ahead: Math.floor, behind: Math.ceil, extent: function(object){return 0;} };
 CollisionDetector.prototype.RIGHT = {ahead: Math.ceil,  behind: Math.floor, extent: function(object){return object.extents[0].length-1;} };
 CollisionDetector.prototype.NONE  = null;
-
 
 CollisionDetector.prototype.getHorizontalDirection = function(object) {
     switch(Math.sign(object.vector.x.speed)) {
@@ -101,6 +74,36 @@ CollisionDetector.prototype.getVerticalDirection = function(object) {
             return this.NONE;
     }
 }
+
+CollisionDetector.prototype.hitsWall = function(object, wall) {
+    var range = {begin: Math.floor(object.vector.y.pos / 50),
+                 end:   Math.min(this.map.length-1, Math.ceil(object.vector.y.pos / 50) + object.extents.length)};
+    for(var i=range.begin; i != range.end; ++i) {
+        if (this.map[this.map.length-1-i][wall] == 1) return true;
+    }
+    return false;
+}
+
+CollisionDetector.prototype.mapHorizontalCollisions = function(object) {
+    var dir = this.getHorizontalDirection(object);
+    if (!dir) return;
+
+    var x = object.vector.x;
+    var y = object.vector.y;
+    var wall = dir.ahead(x.pos / this.TILE_WIDTH)+dir.extent(object);
+    
+    if (x.pos > this.map[0].length*this.TILE_WIDTH-100) {
+        x.pos = this.map[0].length*this.TILE_WIDTH-100;
+        x.speed = 0;
+    } else if (x.pos < 0) {
+        x.pos = 0;
+        x.speed = 0;
+    } else if (this.hitsWall(object, wall)) {
+        x.pos = dir.behind(x.pos / this.TILE_WIDTH) * this.TILE_WIDTH;
+        x.speed = 0;
+    }
+}
+
 
 CollisionDetector.prototype.hitsFloor = function(object, floor) {
     var range = {begin: Math.floor(object.vector.x.pos / this.TILE_WIDTH),
