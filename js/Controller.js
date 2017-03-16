@@ -5,10 +5,10 @@ function Controller(world, game) {
     this.bullets = [];
     this.detector = new CollisionDetector(this.map);
 
-    this.character = new Character(0,1, "krabby");
-    this.detector.add(this.character);
 
     this.portals = [];
+
+    var spawnPoint = {x: 0, y: 1};
 
     var m = $(".main");
     m.css({'background-color': world.color});
@@ -23,10 +23,15 @@ function Controller(world, game) {
             } else if (this.map[y][x] == Evoli) {
                 var ennemy = new Evoli(x, 13-y);
                 this.detector.add(ennemy);
+            } else if (this.map[y][x] == Character) {
+                spawnPoint = {x:x, y: 13-y};
             }
         }
     }
     world.init(game);
+
+    this.character = new Character(spawnPoint.x, spawnPoint.y, "krabby");
+    this.detector.add(this.character);
 };
 
 Controller.prototype.TILE_WIDTH = 50;
